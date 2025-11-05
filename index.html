@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GD Farms - Business Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1 id="app-title">GD Farms</h1>
+                <div class="user-info">
+                    <span id="user-status">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="container">
+                <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="nav-btn" data-tab="items">Items</button>
+                <button class="nav-btn" data-tab="analytics">Analytics</button>
+                <button class="nav-btn" data-tab="goals">Goals</button>
+                <button class="nav-btn" data-tab="settings">Settings</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main container">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2>Business Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <p id="total-revenue">$0.00</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Profit</h3>
+                        <p id="total-profit">$0.00</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Profit Margin</h3>
+                        <p id="profit-margin">0%</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Items</h3>
+                        <p id="total-items">0</p>
+                    </div>
+                </div>
+                
+                <div class="recent-items">
+                    <h3>Recent Items</h3>
+                    <div id="recent-items-list"></div>
+                </div>
+            </div>
+
+            <!-- Items Management Tab -->
+            <div id="items" class="tab-content">
+                <div class="section-header">
+                    <h2>Manage Items</h2>
+                    <button class="btn btn-primary" id="add-item-btn">Add New Item</button>
+                </div>
+                
+                <div class="items-list" id="items-list">
+                    <!-- Items will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <h2>Business Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Financial Summary</h3>
+                        <div id="financial-summary"></div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Top Performing Items</h3>
+                        <div id="top-items"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Tab -->
+            <div id="goals" class="tab-content">
+                <h2>Business Goals</h2>
+                <div class="goals-container">
+                    <div class="goal-form">
+                        <h3>Set New Goal</h3>
+                        <form id="goal-form">
+                            <div class="form-group">
+                                <label>Target Revenue:</label>
+                                <input type="number" id="target-revenue" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Target Profit:</label>
+                                <input type="number" id="target-profit" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Deadline:</label>
+                                <input type="date" id="goal-deadline" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Set Goal</button>
+                        </form>
+                    </div>
+                    
+                    <div class="current-goal">
+                        <h3>Current Goal</h3>
+                        <div id="current-goal"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <h2>Application Settings</h2>
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label>App Name:</label>
+                        <input type="text" id="app-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Currency:</label>
+                        <select id="currency">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="KES">KES (KSh)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Default Weight Unit:</label>
+                        <select id="weight-unit">
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">Grams (g)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Default Volume Unit:</label>
+                        <select id="volume-unit">
+                            <option value="liters">Liters</option>
+                            <option value="ml">Milliliters (ml)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </div>
+        </main>
+
+        <!-- Add/Edit Item Modal -->
+        <div id="item-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 id="modal-title">Add New Item</h3>
+                <form id="item-form">
+                    <input type="hidden" id="item-id">
+                    <div class="form-group">
+                        <label>Item Name:</label>
+                        <input type="text" id="item-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity:</label>
+                        <input type="number" id="quantity-value" step="0.01" required>
+                        <select id="quantity-unit">
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="liters">liters</option>
+                            <option value="ml">ml</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Buying Price (per unit):</label>
+                        <input type="number" id="buying-price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Selling Price (per unit):</label>
+                        <input type="number" id="selling-price" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
